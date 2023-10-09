@@ -66,5 +66,3 @@ const authController = {
 };
 
 export default authController;
-
-// const err = doc.validateSync();

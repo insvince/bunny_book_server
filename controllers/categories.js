@@ -54,7 +54,6 @@ const categoryController = {
                 { $set: { categoryID: null } },
             );
             await Category.findByIdAndRemove(req.params.id);
-
             res.status(200).json('Deleted Successfully');
         } catch (err) {
             res.status(400).json({
