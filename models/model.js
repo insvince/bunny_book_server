@@ -73,8 +73,6 @@ const userSchema = new mongoose.Schema(
         password: { type: String, min: 12, max: 40, require: true },
         email: { type: String, require: true, unique: true },
         address: { type: String, min: 20, max: 150 },
-        accessToken: { type: String },
-        refeshToken: { type: String },
         tel: String,
         role: { type: Boolean, defaul: false },
     },
@@ -117,6 +115,26 @@ const bookOrderSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
+const cartSchema = new mongoose.Schema(
+    {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            require: true,
+        },
+        books: {
+            type: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Book',
+                    require: true,
+                },
+            ],
+        },
+    },
+    { timestamps: true },
+);
+
 const favouriteSchema = new mongoose.Schema(
     {
         userId: {
@@ -141,6 +159,16 @@ let User = mongoose.model('User', userSchema);
 let Category = mongoose.model('Category', categorySchema);
 let OrderHistory = mongoose.model('OrderHistory', orderHistorySchema);
 let BookOrder = mongoose.model('BookOrder', bookOrderSchema);
+let Cart = mongoose.model('Cart', cartSchema);
 let Favourite = mongoose.model('Favourite', favouriteSchema);
 
-export { Author, Book, Category, User, OrderHistory, BookOrder, Favourite };
+export {
+    Author,
+    Book,
+    Category,
+    User,
+    OrderHistory,
+    BookOrder,
+    Cart,
+    Favourite,
+};

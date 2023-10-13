@@ -6,10 +6,10 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
-import authRoute from './routes/auth.js';
+import authorRoute from './routes/author.js';
 import bookRoute from './routes/book.js';
 import categoriesRoute from './routes/categories.js';
-import userRoute from './routes/user.js';
+import authRoute from './routes/auth.js';
 
 /* INIT APP */
 const app = express();
@@ -26,9 +26,9 @@ mongoose
     .then(console.log('Connected Database!!!'));
 
 /* ROUTES */
-app.use('/api/auth', authRoute);
+app.use('/api/author', authorRoute);
 app.use('/api/book', bookRoute);
 app.use('/api/categories', categoriesRoute);
-app.use('/api/user', userRoute);
+app.use('/api/auth', authRoute);
 
 app.listen(process.env.PORT || 3333, () => console.log('Server is running'));

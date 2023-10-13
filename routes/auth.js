@@ -1,21 +1,22 @@
-import authController from '../controllers/auth.js';
 import express from 'express';
+import middleware from '../controllers/middleware.js';
+import authController from './../controllers/auth.js';
 
 const router = express.Router();
 
-/* Get All Authors */
-router.get('/', authController.getAllAuthors);
+/* Get All Users */
+router.get('/', middleware.verifyToken, authController.getAllUsers);
 
-/* Get Author */
-router.get('/:id', authController.getAuthor);
+/* Register User */
+router.post('/register', authController.registerUser);
 
-/* Add Author */
-router.post('/', authController.addAuthor);
+/* Login User */
+router.post('/login', authController.loginUser);
 
-/* Update Author */
-router.put('/:id', authController.updateAuthor);
+/* Logout User */
+router.post('/logout', middleware.verifyToken, authController.logoutUser);
 
-/* Delete Author */
-router.delete('/:id', authController.deleteAuthor);
+/* Refresh Token */
+router.post('/refresh', authController.requestRefreshToken);
 
 export default router;
