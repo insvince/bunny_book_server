@@ -10,6 +10,8 @@ import authorRoute from './routes/author.js';
 import bookRoute from './routes/book.js';
 import categoriesRoute from './routes/categories.js';
 import authRoute from './routes/auth.js';
+import userRoute from './routes/user.js';
+import cartRoute from './routes/cart.js';
 
 /* INIT APP */
 const app = express();
@@ -30,5 +32,7 @@ app.use('/api/author', authorRoute);
 app.use('/api/book', bookRoute);
 app.use('/api/categories', categoriesRoute);
 app.use('/api/auth', authRoute);
+app.use('/api/user', userRoute);
+app.use('/api/cart', cartRoute);
 
 app.listen(process.env.PORT || 3333, () => console.log('Server is running'));

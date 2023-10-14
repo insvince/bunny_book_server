@@ -2,12 +2,19 @@ import express from 'express';
 import userController from '../controllers/user.js';
 import middleware from '../controllers/middleware.js';
 
-const router = Router.express();
+const router = express.Router();
 
+/* Get All Users */
+router.get('/', middleware.verifyToken, userController.getAllUsers);
+
+/* Update User */
+router.put('/:id', middleware.verifyTokenAdminAuth, userController.updateUser);
+
+/* Delete User */
 router.delete(
     '/:id',
     middleware.verifyTokenAdminAuth,
-    authController.deleteUser,
+    userController.deleteUser,
 );
 
 export default router;

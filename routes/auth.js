@@ -4,9 +4,6 @@ import authController from './../controllers/auth.js';
 
 const router = express.Router();
 
-/* Get All Users */
-router.get('/', middleware.verifyToken, authController.getAllUsers);
-
 /* Register User */
 router.post('/register', authController.registerUser);
 

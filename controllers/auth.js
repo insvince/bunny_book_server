@@ -5,18 +5,6 @@ import jwt from 'jsonwebtoken';
 let refreshTokens = [];
 
 const authController = {
-    getAllUsers: async (req, res) => {
-        try {
-            const allUsers = await User.find();
-            res.status(200).json(allUsers);
-        } catch (err) {
-            res.status(400).json({
-                status: 'Fail',
-                message: err.message,
-            });
-        }
-    },
-
     generateAccessToken: user => {
         return jwt.sign(
             {
@@ -24,7 +12,7 @@ const authController = {
                 role: user.role,
             },
             process.env.ACCESS_KEY,
-            { expiresIn: '20s' },
+            { expiresIn: '3m' },
         );
     },
 
@@ -54,8 +42,8 @@ const authController = {
                 return res.status(404).json('Wrong password!');
             }
             if (user && validPassword) {
-                const accessToken = userController.generateAccessToken(user);
-                const refreshToken = userController.generateRefreshToken(user);
+                const accessToken = authController.generateAccessToken(user);
+                const refreshToken = authController.generateRefreshToken(user);
 
                 refreshTokens.push(refreshToken);
                 res.cookie('refreshToken', refreshToken, {
@@ -104,7 +92,9 @@ const authController = {
             });
 
             const user = await newUser.save();
-            res.status(200).json(user);
+
+            const { password, ...others } = user._doc;
+            res.status(200).json({ ...others });
         } catch (err) {
             res.status(400).json({
                 status: 'Fail',
@@ -127,8 +117,8 @@ const authController = {
             refreshTokens = refreshTokens.filter(
                 token => token !== refreshToken,
             );
-            const newAccessToken = userController.generateAccessToken(user);
-            const newRefreshToken = userController.generateRefreshToken(user);
+            const newAccessToken = authController.generateAccessToken(user);
+            const newRefreshToken = authController.generateRefreshToken(user);
             res.cookie('refreshToken', newRefreshToken, {
                 path: '/',
                 httpOnly: true,

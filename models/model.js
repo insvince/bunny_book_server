@@ -88,9 +88,12 @@ const orderHistorySchema = new mongoose.Schema(
         },
         books: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Book',
-                require: true,
+                bookId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Book',
+                    require: true,
+                },
+                quantity: Number,
             },
         ],
         orderAt: String,
@@ -105,12 +108,16 @@ const bookOrderSchema = new mongoose.Schema(
             ref: 'OrderHistory',
             require: true,
         },
-        bookId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Book',
-            require: true,
-        },
-        amount: { type: Number, max: 99, require: true },
+        books: [
+            {
+                bookId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Book',
+                    require: true,
+                },
+                quantity: Number,
+            },
+        ],
     },
     { timestamps: true },
 );
@@ -120,17 +127,17 @@ const cartSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            require: true,
         },
-        books: {
-            type: [
-                {
+        books: [
+            {
+                bookId: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'Book',
                     require: true,
                 },
-            ],
-        },
+                quantity: Number,
+            },
+        ],
     },
     { timestamps: true },
 );
