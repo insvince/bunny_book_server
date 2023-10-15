@@ -6,12 +6,12 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
-import authorRoute from './routes/author.js';
-import bookRoute from './routes/book.js';
-import categoriesRoute from './routes/categories.js';
-import authRoute from './routes/auth.js';
-import userRoute from './routes/user.js';
-import cartRoute from './routes/cart.js';
+import authorRoute from './routes/author.route.js';
+import bookRoute from './routes/book.route.js';
+import categoriesRoute from './routes/categories.route.js';
+import authRoute from './routes/auth.route.js';
+import userRoute from './routes/user.route.js';
+import cartRoute from './routes/cart.route.js';
 
 /* INIT APP */
 const app = express();

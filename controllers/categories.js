@@ -1,4 +1,5 @@
-import { Book, Category } from '../models/model.js';
+import Book from '../models/book.model.js';
+import Category from './../models/categories.model.js';
 
 const categoryController = {
     getCategory: async (req, res) => {

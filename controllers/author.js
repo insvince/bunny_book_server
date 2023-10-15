@@ -1,10 +1,12 @@
-import { Author, Book } from '../models/model.js';
+import Author from '../models/author.model.js';
+import Book from '../models/book.model.js';
 
 const authorController = {
     getAuthor: async (req, res) => {
         try {
             const author = await Author.findById(req.params.id).populate(
                 'books',
+                'title',
             );
             res.status(200).json(author);
         } catch (err) {

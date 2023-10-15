@@ -1,11 +1,12 @@
-import { Author, Book } from '../models/model.js';
+import Author from '../models/author.model.js';
+import Book from '../models/book.model.js';
 
 const bookController = {
     getBook: async (req, res) => {
         try {
             const book = await Book.findById(req.params.id)
-                .populate('categoryID')
-                .populate('author');
+                .populate('categoryID', 'name')
+                .populate('author', 'name');
             res.status(200).json(book);
         } catch (err) {
             res.status(400).json({
@@ -60,7 +61,9 @@ const bookController = {
     deleteBook: async (req, res) => {
         try {
             await Author.updateMany(
-                { books: req.params.id },
+                {
+                    books: req.params.id,
+                },
                 {
                     $pull: { books: req.params.id },
                 },
