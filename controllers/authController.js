@@ -1,6 +1,6 @@
-import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import User from '../models/user.model.js';
 
 let refreshTokens = []; //store refeshToken, when delpoy fix upload database
 
@@ -33,14 +33,13 @@ const authController = {
             const hashed = await bcrypt.hash(req.body.password, salt);
 
             const newUser = new User({
-                username: req.body.username,
-                email: req.body.email,
+                ...req.body,
                 password: hashed,
             });
 
             const user = await newUser.save();
+            const { password, role, ...others } = user._doc;
 
-            const { password, ...others } = user._doc;
             res.status(200).json({ ...others });
         } catch (err) {
             res.status(400).json({
@@ -77,7 +76,7 @@ const authController = {
                 });
 
                 // elimate password
-                const { password, ...others } = user._doc;
+                const { password, role, ...others } = user._doc;
                 res.status(200).json({ ...others, accessToken });
             }
         } catch (err) {
@@ -119,6 +118,7 @@ const authController = {
             );
             const newAccessToken = authController.generateAccessToken(user);
             const newRefreshToken = authController.generateRefreshToken(user);
+
             res.cookie('refreshToken', newRefreshToken, {
                 path: '/',
                 httpOnly: true,

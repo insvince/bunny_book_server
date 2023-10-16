@@ -74,7 +74,7 @@ const userSchema = new mongoose.Schema(
         email: { type: String, require: true, unique: true },
         address: { type: String, min: 20, max: 150 },
         tel: String,
-        role: { type: Boolean, defaul: false },
+        role: { type: Boolean, default: false },
     },
     { timestamps: true },
 );

@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
             require: true,
             unique: true,
         },
-        fullName: {
+        fullname: {
             type: String,
             min: 8,
             max: 50,
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
         tel: { type: String },
         role: {
             type: Boolean,
-            defaul: false,
+            default: false,
             require: true,
         },
     },

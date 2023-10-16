@@ -1,5 +1,5 @@
-import Cart from '../models/cart.model.js';
 import jwt from 'jsonwebtoken';
+import Cart from '../models/cart.model.js';
 import middleware from './middleware.js';
 
 const cartController = {
