@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+const year = new Date().getFullYear();
+
 const authorSchema = new mongoose.Schema(
     {
         name: {
@@ -9,15 +11,15 @@ const authorSchema = new mongoose.Schema(
         },
         year: {
             type: Number,
-            min: [500, 'Above 499'],
-            max: [2023, 'got {VALUE} elow current year'],
+            min: 50,
+            max: year,
         },
         books: [
             { type: mongoose.Schema.Types.ObjectId, unique: true, ref: 'Book' },
         ],
         description: {
             type: String,
-            require: [true, { min: [20, 'got {VALUE} more words'], max: 150 }],
+            require: [true, { min: 20, max: 150 }],
         },
     },
     { timestamps: true },

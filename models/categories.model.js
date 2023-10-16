@@ -4,7 +4,7 @@ const categorySchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            max: [30, 'less than 30'],
+            max: 30,
             require: true,
             unique: true,
         },

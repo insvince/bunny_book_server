@@ -5,6 +5,7 @@ const favouriteSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
+            unique: true,
             require: true,
         },
         books: [
@@ -12,6 +13,7 @@ const favouriteSchema = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Book',
                 require: true,
+                unique: true,
             },
         ],
     },

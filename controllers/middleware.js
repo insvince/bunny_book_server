@@ -54,6 +54,22 @@ const middleware = {
             });
         }
     },
+    verifyTokenIsAdmin: (req, res, next) => {
+        try {
+            middleware.verifyToken(req, res, () => {
+                if (req.user.role) {
+                    next();
+                } else {
+                    return res.status(403).json("You don't have access!");
+                }
+            });
+        } catch (err) {
+            res.status(400).json({
+                status: 'fail',
+                message: err.message,
+            });
+        }
+    },
 };
 
 export default middleware;
