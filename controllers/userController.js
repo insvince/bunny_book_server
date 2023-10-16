@@ -21,19 +21,36 @@ const userController = {
     },
 
     updateUser: async (req, res) => {
-        const salt = await bcrypt.genSalt(10);
-        const hashed = await bcrypt.hash(req.body.password, salt);
+        try {
+            if (req.body.password) {
+                const salt = await bcrypt.genSalt(10);
+                const hashed = await bcrypt.hash(req.body.password, salt);
 
-        const user = await User.findByIdAndUpdate(
-            req.params.id,
-            {
-                ...req.body,
-                password: hashed,
-            },
-            { new: true }, //mongoose will not return the updated document
-        );
+                const user = await User.findByIdAndUpdate(
+                    req.params.id,
+                    {
+                        ...req.body,
+                        password: hashed,
+                    },
+                    { new: true }, //mongoose will not return the updated document
+                );
 
-        res.status(200).json(user);
+                res.status(200).json(user);
+            } else {
+                const user = await User.findByIdAndUpdate(
+                    req.params.id,
+                    req.body,
+                    { new: true }, //mongoose will not return the updated document
+                );
+
+                res.status(200).json(user);
+            }
+        } catch (err) {
+            res.status(400).json({
+                status: 'Fail',
+                message: err.message,
+            });
+        }
     },
 
     deleteUser: async (req, res) => {

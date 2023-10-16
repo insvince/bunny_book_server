@@ -41,7 +41,7 @@ const cartController = {
         }
     },
 
-    addCart: async (req, res, idUser) => {
+    addItem: async (req, res, idUser) => {
         try {
             const newItem = new Cart({
                 books: req.params.id,
@@ -80,7 +80,7 @@ const cartController = {
 
                 res.status(200).json('Updated Successfully!');
             } else {
-                await cartController.addCart(req, res, idUser);
+                await cartController.addItem(req, res, idUser);
                 res.status(200).json('New item added!');
             }
         } catch (err) {
@@ -91,8 +91,20 @@ const cartController = {
         }
     },
 
-    deleteCart: async (req, res) => {
+    deleteItem: async (req, res) => {
         try {
+            res.status(200).json('Delete Successfully!');
+        } catch (err) {
+            res.status(400).json({
+                status: 'fail',
+                message: err.message,
+            });
+        }
+    },
+
+    clearCart: async (req, res) => {
+        try {
+            res.status(200).json('Clear Successfully!');
         } catch (err) {
             res.status(400).json({
                 status: 'fail',

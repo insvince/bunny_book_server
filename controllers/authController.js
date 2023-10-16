@@ -2,7 +2,7 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-let refreshTokens = [];
+let refreshTokens = []; //store refeshToken, when delpoy fix upload database
 
 const authController = {
     generateAccessToken: user => {
@@ -12,7 +12,7 @@ const authController = {
                 role: user.role,
             },
             process.env.ACCESS_KEY,
-            { expiresIn: '3m' },
+            { expiresIn: '2h' },
         );
     },
 
@@ -27,6 +27,29 @@ const authController = {
         );
     },
 
+    registerUser: async (req, res) => {
+        try {
+            const salt = await bcrypt.genSalt(10);
+            const hashed = await bcrypt.hash(req.body.password, salt);
+
+            const newUser = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: hashed,
+            });
+
+            const user = await newUser.save();
+
+            const { password, ...others } = user._doc;
+            res.status(200).json({ ...others });
+        } catch (err) {
+            res.status(400).json({
+                status: 'Fail',
+                message: err.message,
+            });
+        }
+    },
+
     loginUser: async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email });
@@ -34,7 +57,7 @@ const authController = {
                 return res.status(404).json('Wrong email!');
             }
 
-            const validPassword = await bcrypt.compare(
+            const validPassword = bcrypt.compare(
                 req.body.password,
                 user.password,
             );
@@ -80,29 +103,6 @@ const authController = {
         }
     },
 
-    registerUser: async (req, res) => {
-        try {
-            const salt = await bcrypt.genSalt(10);
-            const hashed = await bcrypt.hash(req.body.password, salt);
-
-            const newUser = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: hashed,
-            });
-
-            const user = await newUser.save();
-
-            const { password, ...others } = user._doc;
-            res.status(200).json({ ...others });
-        } catch (err) {
-            res.status(400).json({
-                status: 'Fail',
-                message: err.message,
-            });
-        }
-    },
-
     requestRefreshToken: async (req, res) => {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken)
@@ -122,7 +122,7 @@ const authController = {
             res.cookie('refreshToken', newRefreshToken, {
                 path: '/',
                 httpOnly: true,
-                secure: false, //set true when deploy
+                secure: true, //set true when deploy
                 sameSite: 'strict',
             });
 
