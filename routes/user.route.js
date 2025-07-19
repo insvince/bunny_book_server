@@ -11,10 +11,6 @@ router.get('/', middleware.verifyTokenIsAdmin, userController.getAllUsers);
 router.put('/:id', middleware.verifyTokenAdminAuth, userController.updateUser);
 
 /* Delete User */
-router.delete(
-    '/:id',
-    middleware.verifyTokenAdminAuth,
-    userController.deleteUser,
-);
+router.delete('/:id', middleware.verifyTokenAdminAuth, userController.deleteUser);
 
 export default router;

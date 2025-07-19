@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { authorize } from '../database.js'; // Adjust the import path as necessary
 
 const userSchema = new mongoose.Schema(
     {
@@ -31,7 +32,12 @@ const userSchema = new mongoose.Schema(
             min: 20,
             max: 150,
         },
-        tel: { type: String },
+        tel: {
+            type: String,
+            min: 10,
+            max: 15,
+            require: true,
+        },
         role: {
             type: Boolean,
             default: false,
@@ -39,7 +45,8 @@ const userSchema = new mongoose.Schema(
         },
     },
     { timestamps: true },
+    { collection: 'users' }
 );
 
-let User = mongoose.model('User', userSchema);
+let User = authorize.model('User', userSchema);
 export default User;

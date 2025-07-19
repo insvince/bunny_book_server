@@ -6,7 +6,7 @@ const userController = {
         try {
             const allUsers = await User.find();
 
-            const allUsersCustom = allUsers.map(user => {
+            const allUsersCustom = allUsers.map((user) => {
                 const { password, ...others } = user._doc;
                 return { ...others };
             });
@@ -32,7 +32,7 @@ const userController = {
                         ...req.body,
                         password: hashed,
                     },
-                    { new: true }, //mongoose will not return the updated document
+                    { new: true } //mongoose will not return the updated document
                 );
 
                 res.status(200).json(user);
@@ -40,7 +40,7 @@ const userController = {
                 const user = await User.findByIdAndUpdate(
                     req.params.id,
                     req.body,
-                    { new: true }, //mongoose will not return the updated document
+                    { new: true } //mongoose will not return the updated document
                 );
 
                 res.status(200).json(user);

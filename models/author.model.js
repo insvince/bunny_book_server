@@ -14,15 +14,14 @@ const authorSchema = new mongoose.Schema(
             min: 50,
             max: year,
         },
-        books: [
-            { type: mongoose.Schema.Types.ObjectId, unique: true, ref: 'Book' },
-        ],
+        books: [{ type: mongoose.Schema.Types.ObjectId, unique: true, ref: 'Book' }],
         description: {
             type: String,
             require: [true, { min: 20, max: 150 }],
         },
     },
     { timestamps: true },
+    { collection: 'authors' }
 );
 
 let Author = mongoose.model('Author', authorSchema);

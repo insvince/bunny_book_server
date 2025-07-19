@@ -1,5 +1,5 @@
 import Book from '../models/book.model.js';
-import Category from '../models/categories.model.js';
+import Category from '../models/genres.model.js';
 
 const categoryController = {
     getCategory: async (req, res) => {
@@ -50,10 +50,7 @@ const categoryController = {
     },
     deleteCategory: async (req, res) => {
         try {
-            await Book.updateMany(
-                { categoryID: req.params.id },
-                { $set: { categoryID: null } },
-            );
+            await Book.updateMany({ categoryID: req.params.id }, { $set: { categoryID: null } });
             await Category.findByIdAndRemove(req.params.id);
             res.status(200).json('Deleted Successfully');
         } catch (err) {

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { database, authorize } from '../index.js'; // Adjust the import path as necessary
 
 const favouriteSchema = new mongoose.Schema(
     {
@@ -18,8 +19,9 @@ const favouriteSchema = new mongoose.Schema(
         ],
     },
     { timestamps: true },
+    { collection: 'favourites' }
 );
 
-let Favourite = mongoose.model('Favourite', favouriteSchema);
+let Favourite = database.model('Favourite', favouriteSchema);
 
 export default Favourite;

@@ -24,6 +24,7 @@ const bookSchema = new mongoose.Schema(
         },
     },
     { timestamps: true },
+    { collection: 'books' }
 );
 
 let Book = mongoose.model('Book', bookSchema);
