@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { authorize } from '../database.js'; // Adjust the import path as necessary
+import { authorize } from '../database/database.js'; // Adjust the import path as necessary
 
 const userSchema = new mongoose.Schema(
     {
