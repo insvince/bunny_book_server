@@ -3,7 +3,6 @@ import env from 'dotenv';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
 import authorRoute from './routes/author.route.js';
@@ -32,4 +31,4 @@ app.use('/api/carts', cartRoute);
 
 app.listen(process.env.PORT || 3333, () => console.log('Server is running'));
 
-export default mongoose;
+export default app; // ✅ export server (Vercel yêu cầu như vậy)
