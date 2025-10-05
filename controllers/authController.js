@@ -5,25 +5,25 @@ import User from '../models/user.model.js';
 let refreshTokens = []; //store refeshToken, when delpoy fix upload database
 
 const authController = {
-    generateAccessToken: user => {
+    generateAccessToken: (user) => {
         return jwt.sign(
             {
                 id: user.id,
                 role: user.role,
             },
             process.env.ACCESS_KEY,
-            { expiresIn: '2h' },
+            { expiresIn: process.env.ACCESS_EXPIRES_IN }
         );
     },
 
-    generateRefreshToken: user => {
+    generateRefreshToken: (user) => {
         return jwt.sign(
             {
                 id: user.id,
                 role: user.role,
             },
             process.env.REFRESH_KEY,
-            { expiresIn: '365d' },
+            { expiresIn: process.env.REFRESH_EXPIRES_IN }
         );
     },
 
@@ -56,10 +56,7 @@ const authController = {
                 return res.status(404).json('Wrong email!');
             }
 
-            const validPassword = bcrypt.compare(
-                req.body.password,
-                user.password,
-            );
+            const validPassword = bcrypt.compare(req.body.password, user.password);
             if (!validPassword) {
                 return res.status(404).json('Wrong password!');
             }
@@ -90,9 +87,7 @@ const authController = {
     logoutUser: async (req, res) => {
         try {
             res.clearCookie('refreshToken');
-            refreshTokens = refreshTokens.filter(
-                token => token !== req.cookies.refreshToken,
-            );
+            refreshTokens = refreshTokens.filter((token) => token !== req.cookies.refreshToken);
             res.status(200).json('Logout!');
         } catch (err) {
             res.status(400).json({
@@ -104,8 +99,7 @@ const authController = {
 
     requestRefreshToken: async (req, res) => {
         const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken)
-            return res.status(401).json("You're not authenticated");
+        if (!refreshToken) return res.status(401).json("You're not authenticated");
         if (!refreshTokens.includes(refreshToken)) {
             return res.status(403).json('Refresh token not valid');
         }
@@ -113,9 +107,7 @@ const authController = {
             if (err) {
                 console.log(err);
             }
-            refreshTokens = refreshTokens.filter(
-                token => token !== refreshToken,
-            );
+            refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
             const newAccessToken = authController.generateAccessToken(user);
             const newRefreshToken = authController.generateRefreshToken(user);
 
